@@ -20,10 +20,20 @@ COMIDAS
 	
 ESTADOS:
 	- Score
+		Cuenta el tiempo que ha pasado.
+		Los objetos comidos también podrían tener un puntaje.
 	- Hambre
+		Si está llena, engordas (las cosas bajan más lentamente?)
+		Si está vacía, pierdes (muerte por inanición)
 	- Grasa
+		Si está alta, paro cardíaco (muerte)
+		Si está baja, vitaminas bajan rápido
 	- Azúcar
+		Si está alta, coma diabético (muerte)
+		Si está baja, baja hambre rápido
 	- Vitaminas
+		Si está alta, diarrea (el hambre baja rápido)
+		Si está baja, gripe o escorbuto
 
 GRÁFICOS:
 Iconos
