@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StatsManager : MonoBehaviour {
+    [Header("Elementos de juego")]
     [SerializeField] private StatBar hungerBar;
     [SerializeField] private StatBar fatBar;
     [SerializeField] private StatBar sugarBar;
     [SerializeField] private StatBar vitaminBar;
+    [SerializeField] private GameOverMessage gameOverMessage;
 
     [Header("Rangos mínimos-máximos para estados")]
     [SerializeField] private Vector2 hungerMinMax;
@@ -88,6 +90,7 @@ public class StatsManager : MonoBehaviour {
         // Do something if dead
         if (dead) {
             Debug.Log("Causa: " + deathCause);
+            gameOverMessage.CallLose(deathCause, 123456789); // Cambiar 0 a un score real
         }
     }
 
