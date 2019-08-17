@@ -1,0 +1,59 @@
+** Equilibrio
+Jugar con peso
+Plataformas
+balanza
+Balanza con figuras
+equilibrio nutricional
+yoga
+dinero
+tiempo
+tile puzzle chain combinations
+
+COMIDAS
+	- Laxante: Baja todas las barras. Sirve para cuando uno tiene algo MUY alto, pero es peligroso si tiene un stat muy bajo, puede morirse.
+	- Pizza: Llena mucho, pero sube mucho la grasa.
+	- Queque: Llena bastante, sube mucho el azúcar.
+	- Naranja: sube vitaminas, no llena mucho.
+	- Chocolate: sube azúcar y grasa, no llena nada.
+	- Aguacate: sube más vitaminas, sube grasa. No llena mucho.
+	- Ensalada de pollo: muy saludable para bajar la grasa pero baja el azúcar
+	
+ESTADOS:
+	- Score
+	- Hambre
+	- Grasa
+	- Azúcar
+	- Vitaminas
+
+GRÁFICOS:
+Iconos
+	Laxante*
+	Pizza*
+	Queque*
+	Naranja*
+	Chocolate*
+	Aguacate*
+	Ensalada*
+	Score (?)
+	Hambre (?)
+	Grasa
+	Azúcar
+	Vitaminas
+	
+	*considerar una animación de 2 cuadros, muy simple
+	
+Fondos
+	Panes (?)
+	
+Personaje
+	Saludable
+	Normal
+	Enfermo
+	Muerto
+
+Interfaces
+	Barras de estados
+	Barra de hambre (puede ser la misma o una variación de las de estados)
+	Marco y fondo de la matriz
+	Fondo para score
+	Tipografía**
