@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,10 @@ public class StatsManager : MonoBehaviour {
     [SerializeField] private float debuffMultiplier = 2f;
     [SerializeField] private float obesityMultiplier = 0.5f;
     [SerializeField] private float obesityCooldown = 10f;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] clips;
 
     private float obesityTimer = 0;
     private bool dead;
@@ -94,19 +99,29 @@ public class StatsManager : MonoBehaviour {
             ScoreCounter scoreCounter = GameObject.FindObjectOfType<ScoreCounter>();
             gameOverMessage.CallLose(deathCause, scoreCounter.Score); // Cambiar 0 a un score real
             ChangeHealth(0);
+            PlayDeath();
         } else {
             // Update character visible status.
             if (HasObesity) ChangeHealth(3);
             else {
-                float fH = (fatBar.Value - .5f);
-                float sH = (sugarBar.Value - .5f);
-                float vH = (vitaminBar.Value - .5f);
+                float fH = Mathf.Abs(fatBar.Value - .5f);
+                float sH = Mathf.Abs(sugarBar.Value - .5f);
+                float vH = Mathf.Abs(vitaminBar.Value - .5f);
+                float hH = (1 - hungerBar.Value) / 3f;
                 //
-                float health = (fH + sH + vH) / 3;
-                if (Mathf.Abs(health) > 0.3f) ChangeHealth(1);
+                //float health = (fH + sH + vH) / 3;
+                float health = Mathf.Max(fH, sH, vH, hH);
+                if (health > 0.25f) ChangeHealth(1);
                 else ChangeHealth(2);
             }
         }
+    }
+
+    private void PlayDeath() {
+        StatAudioControl[] allStatAudios = GameObject.FindObjectsOfType<StatAudioControl>();
+        foreach (StatAudioControl sa in allStatAudios) sa.Stop();
+        // Play death
+        audioSource.PlayOneShot(clips[0]);
     }
 
     // 0:dead 1:sick 2:healthy 3:fat
