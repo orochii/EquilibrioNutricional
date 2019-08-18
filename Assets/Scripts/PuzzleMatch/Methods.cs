@@ -7,7 +7,7 @@ public class Methods : MonoBehaviour
     private Vector2 finalPosition;
     
     private void Start() {
-        Debug.Log("Aqu[i rto");
+        
     }
 
     private void Update() {
