@@ -56,7 +56,12 @@ public class Methods : MonoBehaviour
         }
         if(findMatch){
             findMatch = false;
-            findMatches();
+            GameObject foodRef = findMatches();
+            if (foodRef != null) {
+                Methods matchedFood = foodRef.GetComponent<Methods>();
+                // Call method for food effect.
+                if (matchedFood != null) StatsManager.Instance.CalcEffect(matchedFood.foodType);
+            }
         }
       }
 
@@ -128,9 +133,10 @@ public class Methods : MonoBehaviour
         }
     }
 
-    private void findMatches(){
+    private GameObject findMatches(){
         int[,] mtx = board.foodToUse;
         bool value = false;
+        GameObject referenceObject = null;
 
         for (int i = 0; i < board.width-2; i++)
         {
@@ -165,9 +171,12 @@ public class Methods : MonoBehaviour
                                 c++;
                             }else{
                                 j += l;
-                                //exploteFood(explotePostions,where);
+                                exploteFood(explotePostions,where);
                                 more = true;
                                 Debug.Log("Match find at "+c);
+                                //if (i >= 0 && i < board.width && j >= 0 && j < board.height) {
+                                referenceObject = board.allFood[j, i];
+                                //}
                             }
                             break;
                         }
@@ -198,7 +207,7 @@ public class Methods : MonoBehaviour
                             else
                             {
                                 j += l;
-                                //exploteFood(explotePostions, where);
+                                exploteFood(explotePostions, where);
                                 Debug.Log("Match find at "+c);
                                 more = true;
                             }
@@ -213,6 +222,7 @@ public class Methods : MonoBehaviour
                 j++;
             }
         }
+        return referenceObject;
     }
 
     private void exploteFood(int[] exploteFood, string where){
@@ -220,11 +230,15 @@ public class Methods : MonoBehaviour
             for (int i = 1; exploteFood[i] != -1; i++)
             {
                 board.foodToUse[exploteFood[0], exploteFood[i]] = -1;
+                GameObject matchedFood = board.allFood[exploteFood[0], exploteFood[i]];
+                board.InstantiateExplodeAt(matchedFood.transform);
             }
         }else{
             for (int i = 1; exploteFood[i] != -1; i++)
             {
                 board.foodToUse[exploteFood[i], exploteFood[0]] = -1;
+                GameObject matchedFood = board.allFood[exploteFood[i], exploteFood[0]];
+                board.InstantiateExplodeAt(matchedFood.transform);
             }
         }
         board.printL();

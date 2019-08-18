@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3312840500862062587}
   - component: {fileID: 3312840500862062585}
   - component: {fileID: 2834226083317934841}
-  - component: {fileID: 4276283227738679889}
   m_Layer: 5
   m_Name: TileMatrix
   m_TagString: Untagged
@@ -62,10 +61,6 @@ MonoBehaviour:
   spaceW: 64
   height: 8
   spaceH: 64
-  distanceX: 0
-  distanceY: 0
-  tilePrefab: {fileID: 705630704698737013, guid: 3679907509822584492f447c5c8e39d9,
-    type: 3}
   foods:
   - {fileID: 8214761752092961566, guid: d34da3cd057705749ad9325675321942, type: 3}
   - {fileID: 7208069848750126000, guid: 2785c850636a7774ba1a7a2efd517b4c, type: 3}
@@ -74,33 +69,5 @@ MonoBehaviour:
   - {fileID: 4697334279473846610, guid: 1becab5a1821a0f43b5e6405bcb520b3, type: 3}
   - {fileID: 328374502025756609, guid: 8d7863a907b71f1459d3ed91f6735103, type: 3}
   - {fileID: 8214761752092961566, guid: 22eb9071460775e449872623724b6a67, type: 3}
---- !u!114 &4276283227738679889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3312840500862062588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: eedf78b7bfb6b45438e6806db222a41a, type: 3}
-  m_Type: 2
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  explosionFXPrefab: {fileID: 2554333313703574476, guid: de1ac9ae80fb1da44a1973e6c4d2a635,
+    type: 3}
