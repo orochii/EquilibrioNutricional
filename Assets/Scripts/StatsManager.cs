@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StatsManager : MonoBehaviour {
+    private static StatsManager m_instance;
+    public static StatsManager Instance { get { return m_instance; } }
+
     [Header("Elementos de juego")]
     [SerializeField] private StatBar hungerBar;
     [SerializeField] private StatBar fatBar;
@@ -32,6 +35,10 @@ public class StatsManager : MonoBehaviour {
     private bool dead;
     private string deathCause = "¿Hackeaste el juego mal?";
 
+    private void Awake() {
+        m_instance = this;
+    }
+
     void Start() {
         // Randomize starting stats.
         float perc = UnityEngine.Random.Range(0.25f, 0.75f);
@@ -42,6 +49,10 @@ public class StatsManager : MonoBehaviour {
         sugarBar.Value = Mathf.Lerp(sugarMinMax.x, sugarMinMax.y, perc);
         perc = UnityEngine.Random.Range(0.25f, 0.75f);
         vitaminBar.Value = Mathf.Lerp(vitaminMinMax.x, vitaminMinMax.y, perc);
+    }
+
+    public void CalcEffect(int foodType) {
+        
     }
 
     void Update() {

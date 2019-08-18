@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class PuzzleMatch : MonoBehaviour
     public GameObject[,] allFood;
     public int[,] foodToUse;
     public GameObject[] foods;
+    public GameObject explosionFXPrefab;
 
       // Start is called before the first frame update
       void Start()
@@ -24,7 +26,7 @@ public class PuzzleMatch : MonoBehaviour
     private void createLogicBoard(){
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++)
-                foodToUse[i,j] = Random.Range(0, foods.Length);
+                foodToUse[i,j] = UnityEngine.Random.Range(0, foods.Length);
         initLogicBoard();
     }
     private void initLogicBoard(){
@@ -36,9 +38,9 @@ public class PuzzleMatch : MonoBehaviour
                 {
                     if (foodToUse[i,j] == foodToUse[i+1, j] && foodToUse[i, j] == foodToUse[i+2, j])
                     {
-                        foodToUse[i,j] = Random.Range(0, foods.Length);    
-                        foodToUse[i+1,j] = Random.Range(0, foods.Length);    
-                        foodToUse[i+2,j] = Random.Range(0, foods.Length);
+                        foodToUse[i,j] = UnityEngine.Random.Range(0, foods.Length);    
+                        foodToUse[i+1,j] = UnityEngine.Random.Range(0, foods.Length);    
+                        foodToUse[i+2,j] = UnityEngine.Random.Range(0, foods.Length);
                         initLogicBoard();   
                     }
                 }
@@ -46,9 +48,9 @@ public class PuzzleMatch : MonoBehaviour
                 {
                     if (foodToUse[i, j] == foodToUse[i, j+1] && foodToUse[i, j] == foodToUse[i, j+2])
                     {
-                        foodToUse[i, j] = Random.Range(0, foods.Length);
-                        foodToUse[i, j + 1] = Random.Range(0, foods.Length);
-                        foodToUse[i, j + 2] = Random.Range(0, foods.Length);
+                        foodToUse[i, j] = UnityEngine.Random.Range(0, foods.Length);
+                        foodToUse[i, j + 1] = UnityEngine.Random.Range(0, foods.Length);
+                        foodToUse[i, j + 2] = UnityEngine.Random.Range(0, foods.Length);
                         initLogicBoard();
                     }
                 }
@@ -71,8 +73,14 @@ public class PuzzleMatch : MonoBehaviour
         }
     }
 
+    public void InstantiateExplodeAt(Transform reference) {
+        GameObject newExplosion = Instantiate<GameObject>(explosionFXPrefab, transform);
+        RectTransform rect = (RectTransform)reference;
+        RectTransform eRect = (RectTransform) newExplosion.transform;
+        eRect.anchoredPosition = rect.anchoredPosition + new Vector2(32,32);
+    }
 
-      public void printL()
+    public void printL()
       {
             Debug.Log("fooods");
             for (int i = 0; i < width; i++)
