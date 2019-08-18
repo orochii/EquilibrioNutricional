@@ -54,9 +54,12 @@ public class Methods : MonoBehaviour
             board.foodToUse[column, row] = this.foodType;
             moveNow = false;
         }
-        if(findMatch){
+        if (findMatch){
             findMatch = false;
             findMatches();
+        }
+        {
+            
         }
       }
 
@@ -72,6 +75,7 @@ public class Methods : MonoBehaviour
     private void CalculeAngle(){
         swipeAngule = Mathf.Atan2(finalPosition.y - firstPosition.y, finalPosition.x - firstPosition.x)* 180/ Mathf.PI;
         movePieces();
+        findMatches();
       }
 
     private void movePieces(){
@@ -82,7 +86,7 @@ public class Methods : MonoBehaviour
             otherFood.GetComponent<Methods>().column -= unit;
             column += unit;
             findMatch = true;
-                  moveNow = true;
+            moveNow = true;
             swipeAngule = 180;
             otherFood.GetComponent<Methods>().moveNow = moveNow;
             otherFood.GetComponent<Methods>().swipeAngule = swipeAngule;
@@ -95,7 +99,7 @@ public class Methods : MonoBehaviour
             otherFood.GetComponent<Methods>().row -= unit;
             row += unit;
             findMatch = true;
-                  moveNow = true;
+            moveNow = true;
             swipeAngule = -90;
             otherFood.GetComponent<Methods>().moveNow = moveNow;
             otherFood.GetComponent<Methods>().findMatch = findMatch;
@@ -120,7 +124,7 @@ public class Methods : MonoBehaviour
             otherFood.GetComponent<Methods>().row += unit;
             row -= unit;
             findMatch = true;
-                  moveNow = true;
+            moveNow = true;
             swipeAngule = 90;
             otherFood.GetComponent<Methods>().moveNow = moveNow;
             otherFood.GetComponent<Methods>().swipeAngule = swipeAngule;
@@ -128,6 +132,46 @@ public class Methods : MonoBehaviour
         }
     }
 
+      private void returnPieces()
+      {
+        if (swipeAngule > -45 && swipeAngule <= 45 && column < board.width * 64)
+        {
+                //Right Swipe
+                otherFood = board.allFood[column + unit, row];
+                otherFood.GetComponent<Methods>().column -= unit;
+                column += unit;
+                moveNow = true;
+                otherFood.GetComponent<Methods>().moveNow = moveNow;
+        }
+        else if (swipeAngule > -45 && swipeAngule <= 135 && row < board.height * 64)
+        {
+                //Up Swipe
+                otherFood = board.allFood[column, row + unit];
+                otherFood.GetComponent<Methods>().row -= unit;
+                row += unit;
+                moveNow = true;
+                otherFood.GetComponent<Methods>().moveNow = moveNow;
+        }
+        else if ((swipeAngule > 135 || swipeAngule <= -135) && column > 0)
+        {
+                //Left Swipe
+                otherFood = board.allFood[column - unit, row];
+                otherFood.GetComponent<Methods>().column += unit;
+                column -= unit;
+                moveNow = true;
+                swipeAngule = 0;
+                otherFood.GetComponent<Methods>().moveNow = moveNow;
+        }
+        else if (swipeAngule < -45 && swipeAngule >= -135 && row > 0)
+        {
+                //Down Swipe
+                otherFood = board.allFood[column, row - unit];
+                otherFood.GetComponent<Methods>().row += unit;
+                row -= unit;
+                moveNow = true;
+                otherFood.GetComponent<Methods>().moveNow = moveNow;
+        }
+      }
     private void findMatches(){
         int[,] mtx = board.foodToUse;
         bool value = false;
@@ -165,16 +209,16 @@ public class Methods : MonoBehaviour
                                 c++;
                             }else{
                                 j += l;
-                                //exploteFood(explotePostions,where);
                                 more = true;
-                                Debug.Log("Match find at "+c);
+                                break;
                             }
-                            break;
                         }
                         if(more){
                             break;
                         }
                     }
+                    exploteFood(explotePostions,where);
+                    //Debug.Log("Match find at " + c);
                 }
                 else if (mtx[i, j] == mtx[i + 1, j] && mtx[i, j] == mtx[i + 2, j])
                 {
@@ -198,8 +242,6 @@ public class Methods : MonoBehaviour
                             else
                             {
                                 j += l;
-                                //exploteFood(explotePostions, where);
-                                Debug.Log("Match find at "+c);
                                 more = true;
                             }
                             break;
@@ -209,12 +251,20 @@ public class Methods : MonoBehaviour
                             break;
                         }
                     }
+                    exploteFood(explotePostions, where);
+                    //Debug.Log("Match find at " + c);
                 }
                 j++;
             }
         }
+        if (value)
+        {
+            fillBoard();
+        }else
+        {
+            returnPieces();
+        }
     }
-
     private void exploteFood(int[] exploteFood, string where){
         if(where == "row"){
             for (int i = 1; exploteFood[i] != -1; i++)
@@ -227,6 +277,17 @@ public class Methods : MonoBehaviour
                 board.foodToUse[exploteFood[i], exploteFood[0]] = -1;
             }
         }
-        board.printL();
+    }
+
+    void fillBoard(){
+        for (int i = 0; i < board.width; i++)
+        {
+            for (int j = 0; j < board.height; j++)
+            {
+                if(board.foodToUse[i,j] == -1){
+                    
+                }
+            }
+        }
     }
 }
