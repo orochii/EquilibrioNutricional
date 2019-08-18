@@ -15,13 +15,15 @@ public class GameOverMessage : MonoBehaviour {
     public void CallLose(string reason, int score = 0) {
         deathCauseText.text = reason;
         finalScore = score;
-        NumberFormatInfo nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-        nfi.NumberGroupSeparator = " ";
-        scoreText.text = finalScore.ToString("n", nfi);
+        scoreText.text = finalScore.ToString("000 000 000");
         gameObject.SetActive(true);
     }
 
-    public void OnRestartClick() {
+    public void OnHomeClick() {
         SceneManager.LoadScene(0);
+    }
+
+    public void OnRestartClick() {
+        SceneManager.LoadScene(1);
     }
 }

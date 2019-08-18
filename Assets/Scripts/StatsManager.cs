@@ -91,7 +91,8 @@ public class StatsManager : MonoBehaviour {
         // Do something if dead
         if (dead) {
             Debug.Log("Causa: " + deathCause);
-            gameOverMessage.CallLose(deathCause, 123456789); // Cambiar 0 a un score real
+            ScoreCounter scoreCounter = GameObject.FindObjectOfType<ScoreCounter>();
+            gameOverMessage.CallLose(deathCause, scoreCounter.Score); // Cambiar 0 a un score real
             ChangeHealth(0);
         } else {
             // Update character visible status.
