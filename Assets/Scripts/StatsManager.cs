@@ -52,7 +52,52 @@ public class StatsManager : MonoBehaviour {
     }
 
     public void CalcEffect(int foodType) {
-        
+        switch(foodType) {
+            case 0: //Aguacate - 
+                Debug.Log("AGUACATE");
+                hungerBar.Value += 0.2f;
+                fatBar.Value += 0.1f;
+                vitaminBar.Value += 0.3f;
+                break;
+            case 1: //Choco - 
+                Debug.Log("CHOCO");
+                hungerBar.Value += 0.2f;
+                fatBar.Value += 0.1f;
+                sugarBar.Value += 0.3f;
+                break;
+            case 2: //Ensalada -
+                Debug.Log("ENSALADA");
+                hungerBar.Value += 0.2f;
+                fatBar.Value -= 0.1f;
+                sugarBar.Value -= 0.1f;
+                break;
+            case 3: //Laxante - 
+                Debug.Log("LAXANTE");
+                hungerBar.Value -= 0.3f;
+                fatBar.Value -= 0.3f;
+                sugarBar.Value -= 0.2f;
+                vitaminBar.Value -= 0.2f;
+                break;
+            case 4: //Naranaja - 
+                Debug.Log("NARANJA");
+                hungerBar.Value += 0.1f;
+                vitaminBar.Value += 0.15f;
+                break;
+            case 5: //Pizza - 
+                Debug.Log("PIZZA");
+                hungerBar.Value += 0.5f;
+                fatBar.Value += 0.4f;
+                break;
+            case 6: //Queque - 
+                Debug.Log("QUEQUE");
+                hungerBar.Value += 0.4f;
+                fatBar.Value += 0.2f;
+                sugarBar.Value += 0.3f;
+                break;
+            default:
+                // Do nothing
+                break;
+        }
     }
 
     void Update() {

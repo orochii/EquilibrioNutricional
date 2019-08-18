@@ -90,7 +90,7 @@ public class PuzzleMatch : MonoBehaviour
                 {
                     aS += foodToUse[i,j].ToString() + " ";
                 }
-                Debug.Log(aS);
+                //Debug.Log(aS);
             }
       }
 

@@ -922,10 +922,10 @@ MonoBehaviour:
   fatMinMax: {x: 0.2, y: 0.975}
   sugarMinMax: {x: 0.2, y: 0.975}
   vitaminMinMax: {x: 0.025, y: 0.8}
-  decreaseRatePerSecond: 0.05
+  decreaseRatePerSecond: 0.01
   debuffMultiplier: 2
   obesityMultiplier: 0.5
-  obesityCooldown: 10
+  obesityCooldown: 30
   audioSource: {fileID: 5139106954362765875}
   clips:
   - {fileID: 8300000, guid: 579583204beb6954e89a2913b5ba30b3, type: 3}
