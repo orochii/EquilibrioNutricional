@@ -13,12 +13,12 @@ public class Methods : MonoBehaviour
     private void Update() {
         
     }
-    void OnMouseDown() {
+    public void OnMouseDown() {
         firstPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Debug.Log(firstPosition);
     }
 
-    void OnMouseUp() {
+    public void OnMouseUp() {
         firstPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Debug.Log(firstPosition);
     }
