@@ -7,6 +7,8 @@ public class MainMenuController : MonoBehaviour {
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip[] clips;
 
+    bool musicStarted;
+
     public void StartGame() {
         SceneManager.LoadScene(1);
     }
@@ -20,6 +22,12 @@ public class MainMenuController : MonoBehaviour {
     }
 
     public void StartMusic() {
+        if (musicStarted) return;
         audioSource.Play();
+        musicStarted = true;
+    }
+
+    public void OpenLink(string url) {
+        Application.OpenURL(url);
     }
 }
