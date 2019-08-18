@@ -8,35 +8,61 @@ public class PuzzleMatch : MonoBehaviour
     public int spaceW;
     public int height;
     public int spaceH;
-
-    public int distanceX;
-    public int distanceY;
-    public GameObject tilePrefab;
-    private GameObject[,] allTiles;
     private GameObject[,] allFood;
+    private int[,] foodToUse;
     public GameObject[] foods;
 
       // Start is called before the first frame update
       void Start()
     {
-        allTiles = new GameObject[width, height];
         allFood = new GameObject[width, height];
+        foodToUse = new int[width,height];
+        createLogicBoard();
         GenerateBoard();
     }
 
-      private void GenerateBoard(){
+    private void createLogicBoard(){
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
+                foodToUse[i,j] = Random.Range(0, foods.Length);
+        initLogicBoard();
+    }
+    private void initLogicBoard(){
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
-                Vector2 tempPosition = new Vector2(i*spaceW + distanceX, j*spaceH + distanceY);
-                GameObject newObject = Instantiate(tilePrefab, transform);
-                RectTransform tileTransform = (RectTransform) newObject.transform;
-                tileTransform.anchoredPosition = tempPosition;
-                newObject.name = "Tile(" + i + ", " + j + ")";
-                int foodToUse = Random.Range(0, foods.Length);
-                GameObject food = Instantiate(foods[foodToUse], transform);
-                //food.transform.parent = transform;
+                if (i+2 <= width-1)
+                {
+                    if (foodToUse[i,j] == foodToUse[i+1, j] && foodToUse[i, j] == foodToUse[i+2, j])
+                    {
+                        foodToUse[i,j] = Random.Range(0, foods.Length);    
+                        foodToUse[i+1,j] = Random.Range(0, foods.Length);    
+                        foodToUse[i+2,j] = Random.Range(0, foods.Length);
+                        initLogicBoard();   
+                    }
+                }
+                if (j+2 <= height-1)
+                {
+                    if (foodToUse[i, j] == foodToUse[i, j+1] && foodToUse[i, j] == foodToUse[i, j+2])
+                    {
+                        foodToUse[i, j] = Random.Range(0, foods.Length);
+                        foodToUse[i, j + 1] = Random.Range(0, foods.Length);
+                        foodToUse[i, j + 2] = Random.Range(0, foods.Length);
+                        initLogicBoard();
+                    }
+                }
+            }
+        }
+    }
+
+    private void GenerateBoard(){
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                Vector2 tempPosition = new Vector2(i*spaceW, j*spaceH);
+                GameObject food = Instantiate(foods[foodToUse[i,j]], transform);
                 RectTransform foodTransform = (RectTransform)food.transform;
                 foodTransform.anchoredPosition = tempPosition;
                 food.name = "Food(" + i + ", " + j + ")";

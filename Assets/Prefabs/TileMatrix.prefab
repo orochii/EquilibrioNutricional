@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3312840500862062587}
   - component: {fileID: 3312840500862062585}
   - component: {fileID: 2834226083317934841}
-  - component: {fileID: 4332833449154765216}
   - component: {fileID: 4276283227738679889}
   m_Layer: 5
   m_Name: TileMatrix
@@ -75,24 +74,6 @@ MonoBehaviour:
   - {fileID: 4697334279473846610, guid: 1becab5a1821a0f43b5e6405bcb520b3, type: 3}
   - {fileID: 328374502025756609, guid: 8d7863a907b71f1459d3ed91f6735103, type: 3}
   - {fileID: 8214761752092961566, guid: 22eb9071460775e449872623724b6a67, type: 3}
---- !u!114 &4332833449154765216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3312840500862062588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25c3db80cf4ac3540af36db914be1452, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 3
-  spaceH: 27
-  distanceX: 300
-  distanceY: 200
-  tilePrefab: {fileID: 705630704698737013, guid: 3679907509822584492f447c5c8e39d9,
-    type: 3}
 --- !u!114 &4276283227738679889
 MonoBehaviour:
   m_ObjectHideFlags: 0
