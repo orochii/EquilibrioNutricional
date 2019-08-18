@@ -30,13 +30,16 @@ public class PuzzleMatch : MonoBehaviour
             for (int j = 0; j < height; j++)
             {
                 Vector2 tempPosition = new Vector2(i*spaceW + distanceX, j*spaceH + distanceY);
-                GameObject newObject = Instantiate(tilePrefab, tempPosition, Quaternion.identity);
-                newObject.transform.parent = transform;
-                newObject.name = "(" + i + ", " + j + ")";
+                GameObject newObject = Instantiate(tilePrefab, transform);
+                RectTransform tileTransform = (RectTransform) newObject.transform;
+                tileTransform.anchoredPosition = tempPosition;
+                newObject.name = "Tile(" + i + ", " + j + ")";
                 int foodToUse = Random.Range(0, foods.Length);
-                GameObject food = Instantiate(foods[foodToUse], tempPosition, Quaternion.identity);
-                food.transform.parent = transform;
-                food.name = "(" + i + ", " + j + ")";
+                GameObject food = Instantiate(foods[foodToUse], transform);
+                //food.transform.parent = transform;
+                RectTransform foodTransform = (RectTransform)food.transform;
+                foodTransform.anchoredPosition = tempPosition;
+                food.name = "Food(" + i + ", " + j + ")";
                 allFood[i,j] = food;
             }
         }

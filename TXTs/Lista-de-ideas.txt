@@ -37,13 +37,13 @@ ESTADOS:
 
 GRÁFICOS:
 Iconos
-	Laxante*
-	Pizza*
-	Queque*
-	Naranja*
-	Chocolate*
-	Aguacate*
-	Ensalada*
+	Laxante* --------
+	Pizza* --------
+	Queque* --------
+	Naranja* --------
+	Chocolate* --------
+	Aguacate* --------
+	Ensalada* --------
 	Score (?)
 	Hambre (?)
 	Grasa
