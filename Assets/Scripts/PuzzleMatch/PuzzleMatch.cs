@@ -8,8 +8,8 @@ public class PuzzleMatch : MonoBehaviour
     public int spaceW;
     public int height;
     public int spaceH;
-    private GameObject[,] allFood;
-    private int[,] foodToUse;
+    public GameObject[,] allFood;
+    public int[,] foodToUse;
     public GameObject[] foods;
 
       // Start is called before the first frame update
@@ -65,10 +65,25 @@ public class PuzzleMatch : MonoBehaviour
                 GameObject food = Instantiate(foods[foodToUse[i,j]], transform);
                 RectTransform foodTransform = (RectTransform)food.transform;
                 foodTransform.anchoredPosition = tempPosition;
-                food.name = "Food(" + i + ", " + j + ")";
+                food.name = i + "," + j+","+foodToUse[i,j];
                 allFood[i,j] = food;
             }
         }
     }
+
+
+      public void printL()
+      {
+            Debug.Log("fooods");
+            for (int i = 0; i < width; i++)
+          {
+                string aS = "";
+                for (int j = 0; j < height; j++)
+                {
+                    aS += foodToUse[i,j].ToString() + " ";
+                }
+                Debug.Log(aS);
+            }
+      }
 
 }

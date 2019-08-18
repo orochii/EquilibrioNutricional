@@ -90,6 +90,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf91293810059642bceefa6d01a807e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unit: 1
+  column: 0
+  row: 0
+  positions: []
+  swipeAngule: 0
 --- !u!114 &-8370633674772791670
 MonoBehaviour:
   m_ObjectHideFlags: 0
