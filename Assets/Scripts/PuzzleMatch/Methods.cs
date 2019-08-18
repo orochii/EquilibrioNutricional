@@ -214,13 +214,11 @@ public class Methods : MonoBehaviour
                                 explotePostions[k] = l;
                                 c++;
                             }else{
+                                referenceObject = board.allFood[i, j];
                                 j += l;
                                 exploteFood(explotePostions,where);
                                 more = true;
                                 Debug.Log("Match find at "+c);
-                                //if (i >= 0 && i < board.width && j >= 0 && j < board.height) {
-                                referenceObject = board.allFood[j, i];
-                                //}
                             }
                         }
                         if(more){
@@ -251,6 +249,7 @@ public class Methods : MonoBehaviour
                             }
                             else
                             {
+                                referenceObject = board.allFood[i, j];
                                 j += l;
                                 exploteFood(explotePostions, where);
                                 Debug.Log("Match find at "+c);
