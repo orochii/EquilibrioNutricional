@@ -9,6 +9,7 @@ public class StatsManager : MonoBehaviour {
     [SerializeField] private StatBar sugarBar;
     [SerializeField] private StatBar vitaminBar;
     [SerializeField] private GameOverMessage gameOverMessage;
+    [SerializeField] private Animator characterAnimator;
 
     [Header("Rangos mínimos-máximos para estados")]
     [SerializeField] private Vector2 hungerMinMax;
@@ -91,7 +92,26 @@ public class StatsManager : MonoBehaviour {
         if (dead) {
             Debug.Log("Causa: " + deathCause);
             gameOverMessage.CallLose(deathCause, 123456789); // Cambiar 0 a un score real
+            ChangeHealth(0);
+        } else {
+            // Update character visible status.
+            if (HasObesity) ChangeHealth(3);
+            else {
+                float fH = (fatBar.Value - .5f);
+                float sH = (sugarBar.Value - .5f);
+                float vH = (vitaminBar.Value - .5f);
+                //
+                float health = (fH + sH + vH) / 3;
+                if (Mathf.Abs(health) > 0.3f) ChangeHealth(1);
+                else ChangeHealth(2);
+            }
         }
+    }
+
+    // 0:dead 1:sick 2:healthy 3:fat
+    private void ChangeHealth(int v) {
+        float realValue = v / 3f;
+        characterAnimator.SetFloat("health", realValue);
     }
 
     // Accessors to values/states
