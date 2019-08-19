@@ -80,39 +80,45 @@ public class PuzzleMatch : MonoBehaviour
         RectTransform eRect = (RectTransform) newExplosion.transform;
         eRect.anchoredPosition = rect.anchoredPosition + new Vector2(32,32);
     }
-
-    public void foodRestore(){
+      /*
+      public void foodRestore(){
+              for (int i = 0; i < width; i++)
+              {
+                  for (int j = 0; j < height; j++)
+                  {
+                      if(foodToUse[i,j] == -1){
+                          foodToUse[i, j] = UnityEngine.Random.Range(0, foods.Length);
+                          Vector2 tempPosition = new Vector2(i * spaceW, j * spaceH);
+                          GameObject food = Instantiate(foods[foodToUse[i, j]], transform);
+                          RectTransform foodTransform = (RectTransform)food.transform;
+                          foodTransform.anchoredPosition = tempPosition;
+                          food.name = i + "," + j + "," + foodToUse[i, j];
+                          Destroy(allFood[i,j]);
+                          allFood[i, j] = food;
+                      }
+                  }
+              }
+          } 
+          */
+      public void foodRestore(){
+        Debug.Log("destroy");
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
-                if(foodToUse[i,j] == -1){
-                    foodToUse[i, j] = UnityEngine.Random.Range(0, foods.Length);
+                if(allFood[i,j].GetComponent<Methods>().foodType == -1){
+                    Destroy(allFood[i,j].GetComponent<Methods>());
+                    Debug.Log(allFood[i,j].GetComponent<Methods>().foodType);
+                    int newFood = UnityEngine.Random.Range(0, foods.Length);
                     Vector2 tempPosition = new Vector2(i * spaceW, j * spaceH);
-                    GameObject food = Instantiate(foods[foodToUse[i, j]], transform);
+                    GameObject food = Instantiate(foods[newFood], transform);
                     RectTransform foodTransform = (RectTransform)food.transform;
                     foodTransform.anchoredPosition = tempPosition;
                     food.name = i + "," + j + "," + foodToUse[i, j];
-                    Destroy(allFood[i,j]);
                     allFood[i, j] = food;
                 }
             }
         }
     }
-
-    public void printL()
-      {
-            string aS = "";
-
-            Debug.Log("fooods");
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    aS += foodToUse[i,j].ToString() + " ";
-                }
-            }
-            Debug.Log(aS);
-      }
 
 }
