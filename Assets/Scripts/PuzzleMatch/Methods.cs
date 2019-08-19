@@ -65,6 +65,10 @@ public class Methods : MonoBehaviour
                 if (matchedFood != null) StatsManager.Instance.CalcEffect(matchedFood);
             }
         }
+        // Check if this is the object in that position.
+        if (gameObject.GetInstanceID() != board.allFood[column, row].GetInstanceID()) {
+            Destroy(gameObject);
+        }
     }
 
     public void OnMouseDown() {
