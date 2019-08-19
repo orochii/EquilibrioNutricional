@@ -198,7 +198,7 @@ public class Methods : MonoBehaviour
                         exploteFood(explotePostions, where);
                     }
                 }
-                else if(i + 2 < board.width){
+                if(i + 2 < board.width){
                     if (mtx[i, j] == mtx[i + 1, j] && mtx[i, j] == mtx[i + 2, j])
                     {
                         value = true;
