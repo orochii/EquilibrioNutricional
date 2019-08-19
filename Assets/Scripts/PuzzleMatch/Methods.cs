@@ -186,7 +186,6 @@ public class Methods : MonoBehaviour
                                 }else{
                                     referenceObject = board.allFood[i, j];
                                     j = l;
-                                    exploteFood(explotePostions,where);
                                     more = true;
                                     Debug.Log("Match find at "+c);
                                     break;
@@ -196,6 +195,7 @@ public class Methods : MonoBehaviour
                                 break;
                             }
                         }
+                        exploteFood(explotePostions, where);
                     }
                 }
                 else if(i + 2 < board.width){
@@ -222,7 +222,6 @@ public class Methods : MonoBehaviour
                                 {
                                     referenceObject = board.allFood[i, j];
                                     i = l;
-                                    exploteFood(explotePostions, where);
                                     Debug.Log("Match find at "+c);
                                     more = true;
                                     break;
@@ -233,6 +232,7 @@ public class Methods : MonoBehaviour
                                 break;
                             }
                         }
+                        exploteFood(explotePostions, where);
                     }
                 }
                 j++;
