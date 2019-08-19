@@ -63,7 +63,7 @@ public class Methods : MonoBehaviour
             if (foodRef != null) {
                 Methods matchedFood = foodRef.GetComponent<Methods>();
                 // Call method for food effect.
-                if (matchedFood != null) StatsManager.Instance.CalcEffect(matchedFood.foodType);
+                if (matchedFood != null) StatsManager.Instance.CalcEffect(matchedFood);
             }
         }
         // Check if they exist on the logical table.

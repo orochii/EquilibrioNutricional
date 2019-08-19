@@ -28,6 +28,7 @@ public class MainMenuController : MonoBehaviour {
     }
 
     public void OpenLink(string url) {
+        if (url.Length == 0) return;
         Application.OpenURL(url);
     }
 }

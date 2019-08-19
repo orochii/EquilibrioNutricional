@@ -14,6 +14,7 @@ public class StatsManager : MonoBehaviour {
     [SerializeField] private StatBar vitaminBar;
     [SerializeField] private GameOverMessage gameOverMessage;
     [SerializeField] private Animator characterAnimator;
+    [SerializeField] private FoodTextPop foodTextPopPrefab;
 
     [Header("Rangos mínimos-máximos para estados")]
     [SerializeField] private Vector2 hungerMinMax;
@@ -60,8 +61,9 @@ public class StatsManager : MonoBehaviour {
     private int[] foodStatistics = new int[7];
     private int lastFood = -1;
 
-    public void CalcEffect(int foodType) {
+    public void CalcEffect(Methods food) {
         // Update your eaten foods :)
+        int foodType = food.foodType;
         lastFood = foodType;
         foodStatistics[foodType]++;
         // Do effects per food type.
@@ -111,6 +113,10 @@ public class StatsManager : MonoBehaviour {
                 // Do nothing
                 break;
         }
+        // Spawn food name letters
+        FoodTextPop pop = Instantiate<FoodTextPop>(foodTextPopPrefab, transform.parent);
+        pop.Set(foodNames[foodType]);
+        pop.transform.position = ((RectTransform)food.transform).position;
     }
 
     void Update() {

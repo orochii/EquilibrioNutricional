@@ -997,6 +997,8 @@ MonoBehaviour:
   vitaminBar: {fileID: 7388358228719173812}
   gameOverMessage: {fileID: 7938420390053669887}
   characterAnimator: {fileID: 0}
+  foodTextPopPrefab: {fileID: 7858273819563479568, guid: a363dec39396f274fad504e94d5b4e3d,
+    type: 3}
   hungerMinMax: {x: 0, y: 0.95}
   fatMinMax: {x: 0.2, y: 0.975}
   sugarMinMax: {x: 0.2, y: 0.975}
