@@ -158,83 +158,111 @@ public class Methods : MonoBehaviour
                   int c = 0;
                   if(j + 2 < board.height){
 
-                      if(mtx[i,j] == mtx[i,j+1] && mtx[i, j] == mtx[i, j + 2]){
-                          value = true;
-                          where = "row";
-                          explotePostions[0] = i;
-                          explotePostions[1] = j;
-                          explotePostions[2] = j+1;
-                          explotePostions[3] = j+2;
-                          bool more = false;
-                          //asdasdasd
-                          c = 3; 
-                          for (int k = 4; k < explotePostions.Length; k++)
-                          {
-                              for (int l = j+3; l < board.height; l++)
-                              {
-                                  if(mtx[i,j] == mtx[i,l]){
-                                      explotePostions[k] = l;
-                                      c++;
-                                  }else{
-                                      referenceObject = board.allFood[i, j];
-                                      j = l;
-                                      exploteFood(explotePostions,where);
-                                      more = true;
-                                      Debug.Log("Match find at "+c);
-                                      break;
-                                  }
-                              }
-                              if(more){
-                                  break;
-                              }
-                          }
-                      }
-                  }
-                  else if(i + 2 < board.width){
-                      if (mtx[i, j] == mtx[i + 1, j] && mtx[i, j] == mtx[i + 2, j])
-                      {
-                          value = true;
-                          where = "column";
-                          explotePostions[0] = j;
-                          explotePostions[1] = i;
-                          explotePostions[2] = i + 1;
-                          explotePostions[3] = i + 2;
-                          bool more = false;
-                          c = 3;
-                          for (int k = 4; k < explotePostions.Length; k++)
-                          {
-                              for (int l = i + 3; l < board.height; l++)
-                              {
-                                  if (mtx[i, j] == mtx[l, j])
-                                  {
-                                      explotePostions[k] = l;
-                                      c++;
-                                  }
-                                  else
-                                  {
-                                      referenceObject = board.allFood[i, j];
-                                      i = l;
-                                      exploteFood(explotePostions, where);
-                                      Debug.Log("Match find at "+c);
-                                      more = true;
-                                      break;
-                                  }
-                              }
-                              if (more)
-                              {
-                                  break;
-                              }
-                          }
-                      }
-                  }
-                  j++;
-              }
-          }
-          board.foodRestore();
-          findMatch = value;
-          return referenceObject;
-      }
-      */
+                    if(mtx[i,j] == mtx[i,j+1] && mtx[i, j] == mtx[i, j + 2]){
+                        value = true;
+                        where = "row";
+                        explotePostions[0] = i;
+                        explotePostions[1] = j;
+                        explotePostions[2] = j+1;
+                        explotePostions[3] = j+2;
+                        bool more = false;
+                        //asdasdasd
+                        c = 3; 
+                        for (int k = 4; k < explotePostions.Length; k++)
+                        {
+                            for (int l = j+3; l < board.height; l++)
+                            {
+                                if(mtx[i,j] == mtx[i,l]){
+                                    explotePostions[k] = l;
+                                    c++;
+                                }else{
+                                    referenceObject = board.allFood[i, j];
+                                    j = l;
+                                    more = true;
+                                    Debug.Log("Match find at "+c);
+                                    break;
+                                }
+                            }
+                            if(more){
+                                break;
+                            }
+                        }
+                        exploteFood(explotePostions, where);
+                    }
+                }
+                if(i + 2 < board.width){
+                    if (mtx[i, j] == mtx[i + 1, j] && mtx[i, j] == mtx[i + 2, j])
+                    {
+                        value = true;
+                        where = "column";
+                        explotePostions[0] = j;
+                        explotePostions[1] = i;
+                        explotePostions[2] = i + 1;
+                        explotePostions[3] = i + 2;
+                        bool more = false;
+                        c = 3;
+                        for (int k = 4; k < explotePostions.Length; k++)
+                        {
+                            for (int l = i + 3; l < board.height; l++)
+                            {
+                                if (mtx[i, j] == mtx[l, j])
+                                {
+                                    explotePostions[k] = l;
+                                    c++;
+                                }
+                                else
+                                {
+                                    referenceObject = board.allFood[i, j];
+                                    i = l;
+                                    Debug.Log("Match find at "+c);
+                                    more = true;
+                                    break;
+                                }
+                            }
+                            if (more)
+                            {
+                                break;
+                            }
+                        }
+                        exploteFood(explotePostions, where);
+                    }
+                }
+                j++;
+            }
+        }
+        board.foodRestore();
+        findMatch = value;
+        return referenceObject;
+    }
+    private void exploteFood(int[] exploteFood, string where){
+        if(where == "row"){
+            for (int i = 1; i < exploteFood.Length; i++)
+            {
+                if(exploteFood[i] != -1){
+                    board.foodToUse[exploteFood[0], exploteFood[i]] = -1;
+                    GameObject matchedFood = board.allFood[exploteFood[0], exploteFood[i]];
+                    board.InstantiateExplodeAt(matchedFood.transform);
+                }
+            }
+        }else{
+            for (int i = 1; exploteFood[i] != -1; i++)
+            {
+                board.foodToUse[exploteFood[i], exploteFood[0]] = -1;
+                GameObject matchedFood = board.allFood[exploteFood[i], exploteFood[0]];
+                board.InstantiateExplodeAt(matchedFood.transform);
+            }
+        }
+    }
+    /* */
+    void debugType(GameObject b, string sms){
+        string text = "";
+        switch (b.GetComponent<Methods>().foodType){
+            case 0:
+                text = "Aguacate";
+                break;
+            case 1:
+                text = "Chocolate";
+                break;
 
       
       /*
