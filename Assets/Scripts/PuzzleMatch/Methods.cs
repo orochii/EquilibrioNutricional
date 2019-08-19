@@ -33,7 +33,6 @@ public class Methods : MonoBehaviour
         targetY = (int) positions.y;
         column = targetX;
         row = targetY;
-        board.printL();
     }
 
     private void Update() {
@@ -42,6 +41,7 @@ public class Methods : MonoBehaviour
         positions.x = column;
         positions.y = row;
         if(moveNow){
+            moveNow = false;
             if(swipeAngule == 180 || swipeAngule == 0){
                 //Directly set the position
                 tempPosition = new Vector2(targetX * 64, positions.y * 64);
@@ -54,7 +54,6 @@ public class Methods : MonoBehaviour
             //foodTransform.anchoredPosition = tempPosition;
             board.allFood[column, row] = this.gameObject;
             board.foodToUse[column, row] = this.foodType;
-            moveNow = false;
         }
         foodTransform.anchoredPosition = Vector2.Lerp(foodTransform.anchoredPosition, tempPosition, 0.5f);
         if (findMatch){
@@ -65,12 +64,6 @@ public class Methods : MonoBehaviour
                 // Call method for food effect.
                 if (matchedFood != null) StatsManager.Instance.CalcEffect(matchedFood);
             }
-        }
-        // Check if they exist on the logical table.
-        if (board.allFood[column, row].GetInstanceID() != gameObject.GetInstanceID()) {
-            Debug.Log(board.allFood[column, row].name);
-            Destroy(gameObject);
-            return;
         }
     }
 
@@ -101,7 +94,7 @@ public class Methods : MonoBehaviour
             otherFood.GetComponent<Methods>().moveNow = moveNow;
             otherFood.GetComponent<Methods>().swipeAngule = swipeAngule;
             otherFood.GetComponent<Methods>().findMatch = findMatch;
-
+            Debug.Log("right");
         } else if (swipeAngule > -45 && swipeAngule <= 135 && row < board.height * 64)
         {
             //Up Swipe
@@ -115,6 +108,7 @@ public class Methods : MonoBehaviour
             otherFood.GetComponent<Methods>().findMatch = findMatch;
             otherFood.GetComponent<Methods>().swipeAngule = swipeAngule;
             otherFood.GetComponent<Methods>().findMatch = findMatch;
+                  Debug.Log("up");
             }else if ((swipeAngule > 135 || swipeAngule <= -135) && column > 0)
         {
             //Left Swipe
@@ -127,6 +121,8 @@ public class Methods : MonoBehaviour
             otherFood.GetComponent<Methods>().moveNow = moveNow;
             otherFood.GetComponent<Methods>().swipeAngule = swipeAngule;
                   otherFood.GetComponent<Methods>().findMatch = findMatch;
+                  Debug.Log("left");
+
             }else if (swipeAngule < -45 && swipeAngule >= -135 && row > 0)
         {
             //Down Swipe
@@ -139,58 +135,22 @@ public class Methods : MonoBehaviour
             otherFood.GetComponent<Methods>().moveNow = moveNow;
             otherFood.GetComponent<Methods>().swipeAngule = swipeAngule;
             otherFood.GetComponent<Methods>().findMatch = findMatch;
-        }
+                  Debug.Log("down");
+            }
+            //debugType(otherFood, "vecino ");
+            //debugType(this.gameObject, "casa ");
+            //Debug.Log(board.foodToUse[column, row] == this.foodType);
     }
 
-      private void returnPieces()
-      {
-        if (swipeAngule > -45 && swipeAngule <= 45 && column < board.width * 64)
-        {
-                //Right Swipe
-                otherFood = board.allFood[column + unit, row];
-                otherFood.GetComponent<Methods>().column -= unit;
-                column += unit;
-                moveNow = true;
-                otherFood.GetComponent<Methods>().moveNow = moveNow;
-        }
-        else if (swipeAngule > -45 && swipeAngule <= 135 && row < board.height * 64)
-        {
-                //Up Swipe
-                otherFood = board.allFood[column, row + unit];
-                otherFood.GetComponent<Methods>().row -= unit;
-                row += unit;
-                moveNow = true;
-                otherFood.GetComponent<Methods>().moveNow = moveNow;
-        }
-        else if ((swipeAngule > 135 || swipeAngule <= -135) && column > 0)
-        {
-                //Left Swipe
-                otherFood = board.allFood[column - unit, row];
-                otherFood.GetComponent<Methods>().column += unit;
-                column -= unit;
-                moveNow = true;
-                swipeAngule = 0;
-                otherFood.GetComponent<Methods>().moveNow = moveNow;
-        }
-        else if (swipeAngule < -45 && swipeAngule >= -135 && row > 0)
-        {
-                //Down Swipe
-                otherFood = board.allFood[column, row - unit];
-                otherFood.GetComponent<Methods>().row += unit;
-                row -= unit;
-                moveNow = true;
-                otherFood.GetComponent<Methods>().moveNow = moveNow;
-        }
-      }
     private GameObject findMatches(){
         int[,] mtx = board.foodToUse;
         bool value = false;
         GameObject referenceObject = null;
 
-        for (int i = 0; i < board.width-2; i++)
+        for (int i = 0; i < board.width; i++)
         {
             int j = 0;
-            while (j < board.height-2)
+            while (j < board.height)
             {
                 int[] explotePostions = new int[board.width + 1];
                 for (int spc = 0; spc < explotePostions.Length; spc++)
@@ -200,83 +160,82 @@ public class Methods : MonoBehaviour
                 string where = "";
                 //asdasdasd
                 int c = 0;
+                if(j + 2 < board.height){
 
-                if(mtx[i,j] == mtx[i,j+1] && mtx[i, j] == mtx[i, j + 2]){
-                    value = true;
-                    where = "row";
-                    explotePostions[0] = i;
-                    explotePostions[1] = j;
-                    explotePostions[2] = j+1;
-                    explotePostions[3] = j+2;
-                    bool more = false;
-                    //asdasdasd
-                    c = 3; 
-                    for (int k = 4; k < explotePostions.Length; k++)
-                    {
-                        for (int l = j+3; l < board.height; l++)
+                    if(mtx[i,j] == mtx[i,j+1] && mtx[i, j] == mtx[i, j + 2]){
+                        value = true;
+                        where = "row";
+                        explotePostions[0] = i;
+                        explotePostions[1] = j;
+                        explotePostions[2] = j+1;
+                        explotePostions[3] = j+2;
+                        bool more = false;
+                        //asdasdasd
+                        c = 3; 
+                        for (int k = 4; k < explotePostions.Length; k++)
                         {
-                            if(mtx[i,j] == mtx[i,l]){
-                                explotePostions[k] = l;
-                                c++;
-                            }else{
-                                referenceObject = board.allFood[i, j];
-                                j = l;
-                                exploteFood(explotePostions,where);
-
-                                more = true;
-                                Debug.Log("Match find at "+c);
+                            for (int l = j+3; l < board.height; l++)
+                            {
+                                if(mtx[i,j] == mtx[i,l]){
+                                    explotePostions[k] = l;
+                                    c++;
+                                }else{
+                                    referenceObject = board.allFood[i, j];
+                                    j = l;
+                                    exploteFood(explotePostions,where);
+                                    more = true;
+                                    Debug.Log("Match find at "+c);
+                                    break;
+                                }
+                            }
+                            if(more){
+                                break;
                             }
                         }
-                        if(more){
-                            break;
-                        }
                     }
-                    exploteFood(explotePostions,where);
-                    //Debug.Log("Match find at " + c);
                 }
-                else if (mtx[i, j] == mtx[i + 1, j] && mtx[i, j] == mtx[i + 2, j])
-                {
-                    value = true;
-                    where = "column";
-                    explotePostions[0] = j;
-                    explotePostions[1] = i;
-                    explotePostions[2] = i + 1;
-                    explotePostions[3] = i + 2;
-                    bool more = false;
-                    c = 3;
-                    for (int k = 4; k < explotePostions.Length; k++)
+                else if(i + 2 < board.width){
+                    if (mtx[i, j] == mtx[i + 1, j] && mtx[i, j] == mtx[i + 2, j])
                     {
-                        for (int l = i + 3; l < board.height; l++)
+                        value = true;
+                        where = "column";
+                        explotePostions[0] = j;
+                        explotePostions[1] = i;
+                        explotePostions[2] = i + 1;
+                        explotePostions[3] = i + 2;
+                        bool more = false;
+                        c = 3;
+                        for (int k = 4; k < explotePostions.Length; k++)
                         {
-                            if (mtx[i, j] == mtx[l, j])
+                            for (int l = i + 3; l < board.height; l++)
                             {
-                                explotePostions[k] = l;
-                                c++;
+                                if (mtx[i, j] == mtx[l, j])
+                                {
+                                    explotePostions[k] = l;
+                                    c++;
+                                }
+                                else
+                                {
+                                    referenceObject = board.allFood[i, j];
+                                    i = l;
+                                    exploteFood(explotePostions, where);
+                                    Debug.Log("Match find at "+c);
+                                    more = true;
+                                    break;
+                                }
                             }
-                            else
+                            if (more)
                             {
-                                referenceObject = board.allFood[i, j];
-                                i = l;
-                                exploteFood(explotePostions, where);
-                                Debug.Log("Match find at "+c);
-                                more = true;
+                                break;
                             }
-                            break;
-                        }
-                        if (more)
-                        {
-                            break;
                         }
                     }
-                    
-                    //Debug.Log("Match find at " + c);
                 }
                 j++;
             }
         }
-        if (value){
-            board.foodRestore();
-        }
+        board.foodRestore();
+        findMatch = value;
         return referenceObject;
     }
     private void exploteFood(int[] exploteFood, string where){
@@ -298,6 +257,33 @@ public class Methods : MonoBehaviour
             }
         }
     }
+    /* */
+    void debugType(GameObject b, string sms){
+        string text = "";
+        switch (b.GetComponent<Methods>().foodType){
+            case 0:
+                text = "Aguacate";
+                break;
+            case 1:
+                text = "Chocolate";
+                break;
 
-
+            case 2:
+                text = "ensalada";
+                break;
+            case 3:
+                text = "laxante";
+                break;
+            case 4:
+                text = "naranja";
+                break;
+            case 5:
+                text = "pizza";
+                break;
+            case 6:
+                text = "queque";
+                break;
+        }
+        Debug.Log(sms + text);
+    }
 }

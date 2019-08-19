@@ -23,6 +23,7 @@ public class PuzzleMatch : MonoBehaviour
         GenerateBoard();
     }
 
+
     private void createLogicBoard(){
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++)
@@ -86,13 +87,13 @@ public class PuzzleMatch : MonoBehaviour
             for (int j = 0; j < height; j++)
             {
                 if(foodToUse[i,j] == -1){
-                    Destroy(allFood[i,j]);
                     foodToUse[i, j] = UnityEngine.Random.Range(0, foods.Length);
                     Vector2 tempPosition = new Vector2(i * spaceW, j * spaceH);
                     GameObject food = Instantiate(foods[foodToUse[i, j]], transform);
                     RectTransform foodTransform = (RectTransform)food.transform;
                     foodTransform.anchoredPosition = tempPosition;
                     food.name = i + "," + j + "," + foodToUse[i, j];
+                    Destroy(allFood[i,j]);
                     allFood[i, j] = food;
                 }
             }
@@ -101,16 +102,17 @@ public class PuzzleMatch : MonoBehaviour
 
     public void printL()
       {
+            string aS = "";
+
             Debug.Log("fooods");
             for (int i = 0; i < width; i++)
-          {
-                string aS = "";
+            {
                 for (int j = 0; j < height; j++)
                 {
                     aS += foodToUse[i,j].ToString() + " ";
                 }
-                Debug.Log(aS);
             }
+            Debug.Log(aS);
       }
 
 }
