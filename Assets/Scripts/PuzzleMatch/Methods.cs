@@ -65,12 +65,6 @@ public class Methods : MonoBehaviour
                 if (matchedFood != null) StatsManager.Instance.CalcEffect(matchedFood.foodType);
             }
         }
-        // Check if they exist on the logical table.
-        if (board.allFood[column, row].GetInstanceID() != gameObject.GetInstanceID()) {
-            Debug.Log(board.allFood[column, row].name);
-            Destroy(gameObject);
-            return;
-        }
     }
 
     public void OnMouseDown() {
@@ -143,8 +137,9 @@ public class Methods : MonoBehaviour
             otherFood.GetComponent<Methods>().findMatch = findMatch;
                   Debug.Log("down");
             }
-            debugType(otherFood, "vecino ");
-            debugType(this.gameObject, "casa");
+            //debugType(otherFood, "vecino ");
+            //debugType(this.gameObject, "casa ");
+            //Debug.Log(board.foodToUse[column, row] == this.foodType);
     }
 
     private GameObject findMatches(){
@@ -197,8 +192,6 @@ public class Methods : MonoBehaviour
                                 break;
                             }
                         }
-                        exploteFood(explotePostions,where);
-                        //Debug.Log("Match find at " + c);
                     }
                 }
                 else if(i + 2 < board.width){
@@ -241,10 +234,8 @@ public class Methods : MonoBehaviour
                 j++;
             }
         }
-        if (value){
-            board.foodRestore();
-            findMatches();
-        }
+        board.foodRestore();
+        findMatch = value;
         return referenceObject;
     }
     private void exploteFood(int[] exploteFood, string where){
@@ -266,7 +257,7 @@ public class Methods : MonoBehaviour
             }
         }
     }
-
+    /* */
     void debugType(GameObject b, string sms){
         string text = "";
         switch (b.GetComponent<Methods>().foodType){
@@ -284,10 +275,10 @@ public class Methods : MonoBehaviour
                 text = "laxante";
                 break;
             case 4:
-                text = "pizza";
+                text = "naranja";
                 break;
             case 5:
-                text = "naranja";
+                text = "pizza";
                 break;
             case 6:
                 text = "queque";
