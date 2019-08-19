@@ -80,6 +80,25 @@ public class PuzzleMatch : MonoBehaviour
         eRect.anchoredPosition = rect.anchoredPosition + new Vector2(32,32);
     }
 
+    public void foodRestore(){
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if(foodToUse[i,j] == -1){
+                    Destroy(allFood[i,j]);
+                    foodToUse[i, j] = UnityEngine.Random.Range(0, foods.Length);
+                    Vector2 tempPosition = new Vector2(i * spaceW, j * spaceH);
+                    GameObject food = Instantiate(foods[foodToUse[i, j]], transform);
+                    RectTransform foodTransform = (RectTransform)food.transform;
+                    foodTransform.anchoredPosition = tempPosition;
+                    food.name = i + "," + j + "," + foodToUse[i, j];
+                    allFood[i, j] = food;
+                }
+            }
+        }
+    }
+
     public void printL()
       {
             Debug.Log("fooods");

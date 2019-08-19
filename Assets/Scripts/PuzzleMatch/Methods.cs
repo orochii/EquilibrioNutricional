@@ -80,8 +80,7 @@ public class Methods : MonoBehaviour
     private void CalculeAngle(){
         swipeAngule = Mathf.Atan2(finalPosition.y - firstPosition.y, finalPosition.x - firstPosition.x)* 180/ Mathf.PI;
         movePieces();
-        findMatches();
-      }
+    }
 
     private void movePieces(){
         if (swipeAngule > -45 && swipeAngule <= 45 && column < board.width * 64)
@@ -109,7 +108,7 @@ public class Methods : MonoBehaviour
             otherFood.GetComponent<Methods>().moveNow = moveNow;
             otherFood.GetComponent<Methods>().findMatch = findMatch;
             otherFood.GetComponent<Methods>().swipeAngule = swipeAngule;
-                  otherFood.GetComponent<Methods>().findMatch = findMatch;
+            otherFood.GetComponent<Methods>().findMatch = findMatch;
             }else if ((swipeAngule > 135 || swipeAngule <= -135) && column > 0)
         {
             //Left Swipe
@@ -217,6 +216,7 @@ public class Methods : MonoBehaviour
                                 referenceObject = board.allFood[i, j];
                                 j += l;
                                 exploteFood(explotePostions,where);
+
                                 more = true;
                                 Debug.Log("Match find at "+c);
                             }
@@ -262,18 +262,16 @@ public class Methods : MonoBehaviour
                             break;
                         }
                     }
-                    exploteFood(explotePostions, where);
+                    
                     //Debug.Log("Match find at " + c);
                 }
                 j++;
             }
         }
-        if (value)
-        {
-            fillBoard();
-        }else
-        {
-            returnPieces();
+        if (!value){
+            //returnPieces();
+        }else{
+            board.foodRestore();
         }
         return referenceObject;
     }
@@ -295,15 +293,5 @@ public class Methods : MonoBehaviour
         }
     }
 
-    void fillBoard(){
-        for (int i = 0; i < board.width; i++)
-        {
-            for (int j = 0; j < board.height; j++)
-            {
-                if(board.foodToUse[i,j] == -1){
-                    
-                }
-            }
-        }
-    }
+
 }
