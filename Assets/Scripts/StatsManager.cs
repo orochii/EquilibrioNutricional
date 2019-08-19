@@ -23,6 +23,8 @@ public class StatsManager : MonoBehaviour {
 
     [Header("Tazas de cambio de estados por segundo")]
     [SerializeField] private float decreaseRatePerSecond = 0.05f;
+    [SerializeField] private float decreaseRateSpeedUp = 0.0001f;
+    [SerializeField] private float decreaseRateMax = 0.04f;
     [SerializeField] private float debuffMultiplier = 2f;
     [SerializeField] private float obesityMultiplier = 0.5f;
     [SerializeField] private float obesityCooldown = 10f;
@@ -31,15 +33,18 @@ public class StatsManager : MonoBehaviour {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip[] clips;
 
+    private float ratePerSecond;
     private float obesityTimer = 0;
     private bool dead;
     private string deathCause = "¿Hackeaste el juego mal?";
-
+    
     private void Awake() {
         m_instance = this;
     }
 
     void Start() {
+        // Set up starting speed
+        ratePerSecond = decreaseRatePerSecond;
         // Randomize starting stats.
         float perc = UnityEngine.Random.Range(0.25f, 0.75f);
         hungerBar.Value = Mathf.Lerp(hungerMinMax.x, hungerMinMax.y, perc);
@@ -51,7 +56,15 @@ public class StatsManager : MonoBehaviour {
         vitaminBar.Value = Mathf.Lerp(vitaminMinMax.x, vitaminMinMax.y, perc);
     }
 
+    private string[] foodNames = new string[7] { "Aguacate", "Chocolate", "Ensalada", "Laxante", "Naranja", "Pizza", "Queque" };
+    private int[] foodStatistics = new int[7];
+    private int lastFood = -1;
+
     public void CalcEffect(int foodType) {
+        // Update your eaten foods :)
+        lastFood = foodType;
+        foodStatistics[foodType]++;
+        // Do effects per food type.
         switch(foodType) {
             case 0: //Aguacate - 
                 Debug.Log("AGUACATE");
@@ -103,11 +116,14 @@ public class StatsManager : MonoBehaviour {
     void Update() {
         // Do nothing if you're already dead.
         if (dead) return;
+        // Raise rate per second
+        ratePerSecond += (Time.deltaTime * decreaseRateSpeedUp);
+        ratePerSecond = Mathf.Clamp(ratePerSecond, 0, decreaseRateMax);
         // Initialize all rates
-        float hungerRate = decreaseRatePerSecond;
-        float fatRate = decreaseRatePerSecond;
-        float sugarRate = decreaseRatePerSecond;
-        float vitaminRate = decreaseRatePerSecond;
+        float hungerRate = ratePerSecond;
+        float fatRate = ratePerSecond;
+        float sugarRate = ratePerSecond;
+        float vitaminRate = ratePerSecond;
         /*
          * Calculate hunger rate and obesity effects.
          */
@@ -153,7 +169,9 @@ public class StatsManager : MonoBehaviour {
         if (dead) {
             Debug.Log("Causa: " + deathCause);
             ScoreCounter scoreCounter = GameObject.FindObjectOfType<ScoreCounter>();
-            gameOverMessage.CallLose(deathCause, scoreCounter.Score); // Cambiar 0 a un score real
+            string favouriteFood = GetFavourite();
+            string lastFoodName = GetLastFood();
+            gameOverMessage.CallLose(deathCause, scoreCounter.Score, favouriteFood, lastFoodName); // Cambiar 0 a un score real
             ChangeHealth(0);
             PlayDeath();
         } else {
@@ -171,6 +189,23 @@ public class StatsManager : MonoBehaviour {
                 else ChangeHealth(2);
             }
         }
+    }
+
+    private string GetLastFood() {
+        if (lastFood < 0) return "N/A";
+        return foodNames[lastFood];
+    }
+    private string GetFavourite() {
+        int favouriteId = -1;
+        for (int i = 0; i < foodStatistics.Length; i++) {
+            if (favouriteId < 0) favouriteId = i;
+            else {
+                if (foodStatistics[i] > 0 && 
+                    foodStatistics[i] > foodStatistics[favouriteId]) favouriteId = i;
+            }
+        }
+        if (favouriteId < 0) return "N/A";
+        return foodNames[favouriteId];
     }
 
     private void PlayDeath() {
