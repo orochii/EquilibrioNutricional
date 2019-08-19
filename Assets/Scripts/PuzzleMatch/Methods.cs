@@ -18,13 +18,16 @@ public class Methods : MonoBehaviour
     private bool moveNow;
     private bool findMatch;
     public float swipeAngule = 0;
+    private RectTransform foodTransform;
 
     private void Start() {
+        foodTransform = (RectTransform)transform;
         moveNow = false;
         findMatch = false;
         board = FindObjectOfType<PuzzleMatch>();
         string[] sPos = name.Split(',');
         positions = new Vector2(int.Parse(sPos[0]),int.Parse(sPos[1]));
+        tempPosition = foodTransform.anchoredPosition;
         foodType = int.Parse(sPos[2]);
         targetX = (int) positions.x;
         targetY = (int) positions.y;
@@ -48,12 +51,12 @@ public class Methods : MonoBehaviour
                 //Directly set the position
                 tempPosition = new Vector2(positions.x * 64, targetY * 64);
             }
-            RectTransform foodTransform = (RectTransform)transform;
-            foodTransform.anchoredPosition = tempPosition;
+            //foodTransform.anchoredPosition = tempPosition;
             board.allFood[column, row] = this.gameObject;
             board.foodToUse[column, row] = this.foodType;
             moveNow = false;
         }
+        foodTransform.anchoredPosition = Vector2.Lerp(foodTransform.anchoredPosition, tempPosition, 0.5f);
         if (findMatch){
             findMatch = false;
             GameObject foodRef = findMatches();
