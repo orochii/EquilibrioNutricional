@@ -66,10 +66,13 @@ public class Methods : MonoBehaviour
                 if (matchedFood != null) StatsManager.Instance.CalcEffect(matchedFood.foodType);
             }
         }
-        {
-            
+        // Check if they exist on the logical table.
+        if (board.allFood[column, row].GetInstanceID() != gameObject.GetInstanceID()) {
+            Debug.Log(board.allFood[column, row].name);
+            Destroy(gameObject);
+            return;
         }
-      }
+    }
 
     public void OnMouseDown() {
         firstPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
