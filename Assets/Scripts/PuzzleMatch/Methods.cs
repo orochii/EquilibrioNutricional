@@ -81,6 +81,10 @@ public class Methods : MonoBehaviour
     }
 
     private void CalculeAngle(){
+        // Check for a minimum move distance
+        float distance = Vector2.Distance(firstPosition, finalPosition);
+        if (distance < 8) return;
+        // If it's ok, then move the piece
         swipeAngule = Mathf.Atan2(finalPosition.y - firstPosition.y, finalPosition.x - firstPosition.x)* 180/ Mathf.PI;
         movePieces();
     }
